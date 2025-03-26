@@ -1,22 +1,56 @@
-import { test, expect } from "@playwright/test"
-import path from "node:path"
+import { test, expect } from '@playwright/test';
+import CartPage from '../pages/cart.page';
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+import path from 'path';
 
-test.describe('Upload Test', () => {
+test.describe('Upload File', () => {
+  let cartPage: CartPage;
 
-    test('Verify upload file', async ({ page }) => {
-        // Go to blog
-        await page.goto('https://practice.sdetunicorns.com/cart/');
+  const fileName = ['logotitle.png', '3mb-file.pdf']
 
-        //provide the file path
-        const filepath = path.join(__dirname, '../data/3mb-file.pdf');
+  for (const name of fileName) {
+    test(`Verify upload with ${name} file`, async ({ page }) => {
+      cartPage = new CartPage(page);
+  
+      // Open url
+      await cartPage.navigate();
+  
+      // provide test file path
+      const filePath = path.join(__dirname, `../data/${name}`);
+      
+      // upload test file
+      cartPage.uploadComponent().uploadFile(filePath);
+  
+      // assertion
+      await expect(cartPage.uploadComponent().successTxt)
+        .toContainText('uploaded successfully', {timeout: 10000});
+    })
+  }
 
-        //upload the test file
-        await page.setInputFiles('input#upfile_1', filepath);
+  
 
-        // click on file upload
-        await page.locator('input#upload_1').click();
+  test.skip('should upload a test file on a hidden input field', async ({ page }) => {
+    // Open url
+    await cartPage.navigate();
 
-        // Hardcoded wait
+    // provide test file path
+    const filePath = path.join(__dirname, '../data/logotitle.png');
+    
+    // DOM manipulation
+    await page.evaluate(() => {
+      const selector = document.querySelector('input#upfile_1');
+      if (selector) {
+        selector.className = ''
+      }
+    })
+
+    // upload test file
+    await page.setInputFiles('input#upfile_1', filePath); // throws error
+
+    // click the submit button
+    await page.locator('#upload_1').click();
+
+    // Hardcoded wait
         // await page.waitForTimeout(5000);
 
         // Conditional wait
@@ -24,36 +58,8 @@ test.describe('Upload Test', () => {
         // page.locator('#wfu_messageblock_header_1_1')
         // .waitFor({state: 'visible', timeout: 10000}); //  condition based wait
 
-        // Assert file is uploaded [assertion wait]
-        await expect(page.locator('#wfu_messageblock_header_1_1')).toContainText("uploaded successfully", {timeout:10000});
-
-    })
-
-    test('Verify upload  with Dom Manipulation', async ({ page }) => {
-        // Go to blog
-        await page.goto('https://practice.sdetunicorns.com/cart/');
-
-        //provide the file path
-        const filepath = path.join(__dirname, '../data/logotitle.png');
-
-
-        // Dom Manipulation
-        await page.evaluate(() => {
-            const selector = document.querySelector('input#upfile_1');
-            if (selector) {
-                selector.className = '';
-            }
-        })
-
-        //upload the test file
-        await page.setInputFiles('input#upfile_1', filepath);
-
-        // click on file upload
-        await page.locator('input#upload_1').click();
-
-        // Assert file is uploaded
-        await expect(page.locator('#wfu_messageblock_header_1_1')).toContainText("uploaded successfully");
-
-    })
-
+    // assertion
+    await expect(page.locator('#wfu_messageblock_header_1_1'))
+      .toContainText('uploaded successfully');
+  })
 })

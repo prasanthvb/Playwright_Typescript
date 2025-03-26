@@ -1,24 +1,21 @@
 import { test, expect } from '@playwright/test'
+import ContactPage from '../pages/contact.page';
+import { faker } from '@faker-js/faker';
 
 test.describe('Contact Test', () => {
+  let contactPage: ContactPage;
 
   test('Fill contact form and verify success message', async ({ page }) => {
+    contactPage = new ContactPage(page);
 
     //open contact page
-    await page.goto('https://practice.sdetunicorns.com/contact/');
-
+    await contactPage.navigate();
     // Fill in the form
-    await page.locator('.contact-name input').fill("Test Name")
-    await page.locator('.contact-email input').fill("Test@mail.com")
-    await page.locator('.contact-phone input').fill("1325476980")
-    await page.locator('.contact-message textarea').fill("This is test")
+     await contactPage.submitForm(faker.person.firstName(), faker.internet.email(), faker.phone.number(), faker.lorem.paragraphs(2));
 
-    // click on submit
-    await page.locator('button[type=submit]').click()
-
-    // Verify success message
-    const successMessage = page.locator('div[role="alert"]')
-    await expect(successMessage).toHaveText('Thanks for contacting us! We will be in touch with you shortly')
+    // verify success message
+    await expect(contactPage.successTxt).toHaveText('Thanks for contacting us! We will be in touch with you shortly')
 
   })
+
 })
