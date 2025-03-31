@@ -12,7 +12,7 @@ test.describe('Home', () => {
 
     test('Open home page and verify title', async ({ page }) => {
         //verify title
-        await expect(page).toHaveTitle("Practice E-Commerce Site – SDET Unicorns");
+        await expect(page).toHaveTitle("Practice TE-Commerce Site – SDET Unicorns");
     });
 
     test.skip('Open About page and verify title', async ({ page }) => {
