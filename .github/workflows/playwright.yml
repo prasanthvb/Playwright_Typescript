@@ -1,23 +1,23 @@
-name: "e2e"
+name: "Playwright e2e Test"
 on: [push]
 jobs:
-  test-e2e:
+  test:
+    timeout-minutes: 60
     name: Run E2E tests
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: lts/*
       - name: Install dependencies
         run: npm ci
-      - name: Install Playwright
+      - name: Install Playwright Browsers
         run: npx playwright install --with-deps
-      - name: Run your tests
+      - name: Run Playwright tests
         run: npx playwright test tests/home.spec.ts
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
         with:
           name: Test Results
           path: test-results
