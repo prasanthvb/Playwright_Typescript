@@ -9,15 +9,18 @@
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
+    "@faker-js/faker": "^9.9.0",
     "@playwright/test": "^1.54.1",
     "@types/node": "^24.0.15",
+    "@typescript-eslint/eslint-plugin": "^8.37.0",
+    "@typescript-eslint/parser": "^8.37.0",
     "allure-commandline": "^2.34.1",
     "allure-playwright": "^3.3.2",
     "eslint": "^9.23.0",
-    "typescript-eslint": "^8.37.0",
-    "@faker-js/faker": "^9.9.0",
-    "@typescript-eslint/eslint-plugin": "^8.37.0",
-    "@typescript-eslint/parser": "^8.37.0",
-    "eslint-plugin-playwright": "^2.2.0"
+    "eslint-plugin-playwright": "^2.2.0",
+    "typescript-eslint": "^8.37.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.1"
   }
 }
