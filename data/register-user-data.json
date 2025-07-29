@@ -1,7 +1,14 @@
 {
+    "liquorLicense":"123456789",
+    "corporateName":"Johnny24 Corp",
+    "businessName":"Johnny24 Business",
+    "premise": "off premise",
+    "streetAddress":"1234 Elm Street",
+    "city":"Springfield",
+    "state":"IL",
+    "postalCode":"62704",
     "fistName":"Johnny24",
     "lastName":"Bonnzela24",
-    "telephoneNumber":"0076765466",
     "email": "johnny24@demo.com",
-    "password":"Password@123"
+    "telephoneNumber":"0076765466"
 }
