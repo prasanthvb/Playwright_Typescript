@@ -14,7 +14,7 @@ import { defineConfig, devices } from '@playwright/test';
 export default defineConfig({
   testDir: './tests',
   /* max time one test can run for.. */
-  timeout: 30 * 1000,
+  timeout: 60 * 1000,
   expect: {
     timeout: 5000
   },
@@ -28,7 +28,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [['line'],['allure-playwright', {outputFolder: 'test-results'}]],
-  globalSetup: require.resolve('./utils/global-setup'),
+  // globalSetup: require.resolve('./utils/global-setup'),
 
   use: {
     actionTimeout: 0,

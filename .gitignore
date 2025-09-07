@@ -8,3 +8,4 @@ node_modules/
 loggedInState.json
 notLoggedInState.json
 allure-*
+/reports/
